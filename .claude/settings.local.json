@@ -18,7 +18,10 @@
       "Bash(Start-Sleep -Seconds 30)",
       "Bash(powershell -Command \"$body = @{warehouse_code=''WH-001''; name=''Main Warehouse''; location=''New York, NY''; capacity=10000} | ConvertTo-Json; Invoke-RestMethod -Uri ''http://localhost:8003/api/v1/warehouses'' -Method Post -Body $body -ContentType ''application/json''\")",
       "Bash(python test_api.py:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(docker-compose restart:*)",
+      "Bash(docker exec:*)",
+      "Bash(powershell:*)"
     ]
   }
 }
