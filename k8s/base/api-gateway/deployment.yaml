@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service
+  name: api-gateway
   namespace: logistics-demo
   labels:
-    app: order-service
+    app: api-gateway
     version: v1
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: order-service
+      app: api-gateway
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,53 +19,53 @@ spec:
   template:
     metadata:
       labels:
-        app: order-service
+        app: api-gateway
         version: v1
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "8001"
+        prometheus.io/port: "8000"
         prometheus.io/path: "/metrics"
     spec:
       containers:
-      - name: order-service
-        image: logistics-order-service:latest
+      - name: api-gateway
+        image: logistics-api-gateway:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 8001
+        - containerPort: 8000
           name: http
           protocol: TCP
         env:
-        - name: DATABASE_URL
+        - name: ORDER_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: order-service-config
-              key: DATABASE_URL
-        - name: RABBITMQ_URL
+              name: api-gateway-config
+              key: ORDER_SERVICE_URL
+        - name: TRACKING_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: order-service-config
-              key: RABBITMQ_URL
+              name: api-gateway-config
+              key: TRACKING_SERVICE_URL
         - name: INVENTORY_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: order-service-config
+              name: api-gateway-config
               key: INVENTORY_SERVICE_URL
-        - name: LOG_LEVEL
+        - name: NOTIFICATION_SERVICE_URL
           valueFrom:
             configMapKeyRef:
-              name: order-service-config
-              key: LOG_LEVEL
+              name: api-gateway-config
+              key: NOTIFICATION_SERVICE_URL
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
-          limits:
             memory: "256Mi"
-            cpu: "200m"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         livenessProbe:
           httpGet:
             path: /health
-            port: 8001
+            port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
@@ -73,7 +73,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /ready
-            port: 8001
+            port: 8000
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 3

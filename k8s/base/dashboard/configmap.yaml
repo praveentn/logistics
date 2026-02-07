@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dashboard-config
+  namespace: logistics-demo
+  labels:
+    app: dashboard
+data:
+  ORDER_SERVICE_URL: "http://order-service:8001"
+  TRACKING_SERVICE_URL: "http://tracking-service:8002"
+  INVENTORY_SERVICE_URL: "http://inventory-service:8003"
+  NOTIFICATION_SERVICE_URL: "http://notification-service:8004"
