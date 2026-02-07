@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+  namespace: logistics-demo
+  labels:
+    app: rabbitmq
+data:
+  rabbitmq.conf: |
+    # Default user
+    default_user = admin
+    default_pass = admin_password_123
+
+    # Logging
+    log.console = true
+    log.console.level = info
+
+    # Connection limits
+    vm_memory_high_watermark.relative = 0.6
+    disk_free_limit.absolute = 2GB
+
+    # Management plugin
+    management.tcp.port = 15672
+
+  enabled_plugins: |
+    [rabbitmq_management,rabbitmq_prometheus].

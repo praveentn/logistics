@@ -1,0 +1,105 @@
+# Prometheus configuration for logistics microservices
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'logistics-demo'
+    environment: 'dev'
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # RabbitMQ metrics
+  - job_name: 'rabbitmq'
+    static_configs:
+      - targets: ['rabbitmq:15692']
+        labels:
+          service: 'rabbitmq'
+
+  # Order Service
+  - job_name: 'order-service'
+    static_configs:
+      - targets: ['order-service:8001']
+        labels:
+          service: 'order-service'
+    metrics_path: '/metrics'
+
+  # Inventory Service (to be added)
+  - job_name: 'inventory-service'
+    static_configs:
+      - targets: ['inventory-service:8003']
+        labels:
+          service: 'inventory-service'
+    metrics_path: '/metrics'
+
+  # Tracking Service (to be added)
+  - job_name: 'tracking-service'
+    static_configs:
+      - targets: ['tracking-service:8002']
+        labels:
+          service: 'tracking-service'
+    metrics_path: '/metrics'
+
+  # Notification Service (to be added)
+  - job_name: 'notification-service'
+    static_configs:
+      - targets: ['notification-service:8004']
+        labels:
+          service: 'notification-service'
+    metrics_path: '/metrics'
+
+  # API Gateway (to be added)
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['api-gateway:8000']
+        labels:
+          service: 'api-gateway'
+    metrics_path: '/metrics'
+
+  # Dashboard (to be added)
+  - job_name: 'dashboard'
+    static_configs:
+      - targets: ['dashboard:8080']
+        labels:
+          service: 'dashboard'
+    metrics_path: '/metrics'
+
+  # Kubernetes pods (for K8s deployment)
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names: ['logistics-demo']
+    relabel_configs:
+      # Only scrape pods with prometheus.io/scrape: "true" annotation
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      # Use custom metrics path if specified
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      # Use custom port if specified
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      # Add pod name as label
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: pod
+      # Add namespace as label
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: namespace
+      # Add service name from pod label
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: replace
+        target_label: service
