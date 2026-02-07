@@ -1,4 +1,4 @@
-# Multi-stage Dockerfile for Order Service
+# Multi-stage Dockerfile for Inventory Service
 FROM python:3.11-slim as base
 
 # Set working directory
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
-COPY services/order-service/requirements.txt .
+COPY services/inventory-service/requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -20,18 +20,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY shared/ ./shared/
 
 # Copy application code
-COPY services/order-service/app/ ./app/
+COPY services/inventory-service/app/ ./app/
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
 
 # Expose port
-EXPOSE 8001
+EXPOSE 8003
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8003/health')"
 
 # Run the application
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]

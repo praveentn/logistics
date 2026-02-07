@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistics Platform Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Logistics Platform Dashboard</h1>
+            <div class="last-updated">
+                Last updated: <span id="last-updated">Loading...</span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Overview Section -->
+            <section class="dashboard-section">
+                <h2>Overview</h2>
+                <div class="cards-grid">
+                    <!-- Orders Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Orders</h3>
+                            <span class="icon">📦</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-large">
+                                <span id="total-orders" class="stat-number">-</span>
+                                <span class="stat-label">Total Orders</span>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-small">
+                                    <span id="pending-orders" class="stat-number">-</span>
+                                    <span class="stat-label">Pending</span>
+                                </div>
+                                <div class="stat-small">
+                                    <span id="delivered-orders" class="stat-number">-</span>
+                                    <span class="stat-label">Delivered</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="order-status" class="status-badge">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Shipments Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Shipments</h3>
+                            <span class="icon">🚚</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-large">
+                                <span id="total-shipments" class="stat-number">-</span>
+                                <span class="stat-label">Total Shipments</span>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-small">
+                                    <span id="active-shipments" class="stat-number">-</span>
+                                    <span class="stat-label">In Transit</span>
+                                </div>
+                                <div class="stat-small">
+                                    <span id="delivered-shipments" class="stat-number">-</span>
+                                    <span class="stat-label">Delivered</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="shipment-status" class="status-badge">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Inventory</h3>
+                            <span class="icon">📊</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-large">
+                                <span id="total-inventory" class="stat-number">-</span>
+                                <span class="stat-label">Total Items</span>
+                            </div>
+                            <div class="stat-row">
+                                <div class="stat-small">
+                                    <span id="low-stock-items" class="stat-number">-</span>
+                                    <span class="stat-label">Low Stock Alerts</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="inventory-status" class="status-badge">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Notifications</h3>
+                            <span class="icon">📧</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="stat-large">
+                                <span id="notifications-sent" class="stat-number">-</span>
+                                <span class="stat-label">Sent Today</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <span id="notification-status" class="status-badge">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Service Health Section -->
+            <section class="dashboard-section">
+                <h2>Service Health</h2>
+                <div class="service-health-container">
+                    <div id="service-health-grid" class="service-health-grid">
+                        <!-- Service health cards will be dynamically inserted here -->
+                    </div>
+                    <div class="overall-health">
+                        <span class="overall-health-label">Overall System Status:</span>
+                        <span id="overall-health" class="status-badge">Loading...</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Logistics Platform. Auto-refreshing every 10 seconds.</p>
+        </footer>
+    </div>
+
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>
