@@ -272,6 +272,17 @@ async def health_check():
 
 
 # Route proxying endpoints
+@router.api_route("/api/v1/orders", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_orders_base(request: Request):
+    """Proxy requests to the Order Service (base path)."""
+    return await proxy_request(
+        request,
+        "orders",
+        settings.ORDER_SERVICE_URL,
+        "/api/v1/orders"
+    )
+
+
 @router.api_route("/api/v1/orders/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
 async def proxy_orders(request: Request, path: str):
     """Proxy requests to the Order Service."""
@@ -280,6 +291,17 @@ async def proxy_orders(request: Request, path: str):
         "orders",
         settings.ORDER_SERVICE_URL,
         f"/api/v1/orders/{path}"
+    )
+
+
+@router.api_route("/api/v1/shipments", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_shipments_base(request: Request):
+    """Proxy requests to the Tracking Service (base path)."""
+    return await proxy_request(
+        request,
+        "shipments",
+        settings.TRACKING_SERVICE_URL,
+        "/api/v1/shipments"
     )
 
 
@@ -294,6 +316,17 @@ async def proxy_shipments(request: Request, path: str):
     )
 
 
+@router.api_route("/api/v1/warehouses", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_warehouses_base(request: Request):
+    """Proxy requests to the Inventory Service (warehouses base path)."""
+    return await proxy_request(
+        request,
+        "warehouses",
+        settings.INVENTORY_SERVICE_URL,
+        "/api/v1/warehouses"
+    )
+
+
 @router.api_route("/api/v1/warehouses/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
 async def proxy_warehouses(request: Request, path: str):
     """Proxy requests to the Inventory Service (warehouses)."""
@@ -302,6 +335,17 @@ async def proxy_warehouses(request: Request, path: str):
         "warehouses",
         settings.INVENTORY_SERVICE_URL,
         f"/api/v1/warehouses/{path}"
+    )
+
+
+@router.api_route("/api/v1/inventory", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_inventory_base(request: Request):
+    """Proxy requests to the Inventory Service (inventory base path)."""
+    return await proxy_request(
+        request,
+        "inventory",
+        settings.INVENTORY_SERVICE_URL,
+        "/api/v1/inventory"
     )
 
 
@@ -316,6 +360,17 @@ async def proxy_inventory(request: Request, path: str):
     )
 
 
+@router.api_route("/api/v1/notifications", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_notifications_base(request: Request):
+    """Proxy requests to the Notification Service (notifications base path)."""
+    return await proxy_request(
+        request,
+        "notifications",
+        settings.NOTIFICATION_SERVICE_URL,
+        "/api/v1/notifications"
+    )
+
+
 @router.api_route("/api/v1/notifications/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
 async def proxy_notifications(request: Request, path: str):
     """Proxy requests to the Notification Service (notifications)."""
@@ -324,6 +379,17 @@ async def proxy_notifications(request: Request, path: str):
         "notifications",
         settings.NOTIFICATION_SERVICE_URL,
         f"/api/v1/notifications/{path}"
+    )
+
+
+@router.api_route("/api/v1/templates", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_templates_base(request: Request):
+    """Proxy requests to the Notification Service (templates base path)."""
+    return await proxy_request(
+        request,
+        "templates",
+        settings.NOTIFICATION_SERVICE_URL,
+        "/api/v1/templates"
     )
 
 
